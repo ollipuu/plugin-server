@@ -395,6 +395,9 @@ export async function createRedis(serverConfig: PluginsServerConfig): Promise<Re
 
     const redis = new Redis(credentials ? serverConfig.POSTHOG_REDIS_HOST : serverConfig.REDIS_URL, {
         ...credentials,
+        tls: {
+            rejectUnauthorized: false // Quick hack to get this to work with TLS in Heroku
+        },
         maxRetriesPerRequest: -1,
     })
     let errorCounter = 0
